@@ -15,14 +15,9 @@ class ZephirPerformance
 	{
 		int i = 0;
 		var guid;
-		//let count = count - 1;
 		while i<count{
 			let guid = self::guid();
 			let i+=1;
 		}
-		// for i in range(0, count) {
-		//     //echo i, "ccc\n";
-		//     let guid = self::guid();
-		// }
 	}
 }

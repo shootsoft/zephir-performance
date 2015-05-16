@@ -2,15 +2,30 @@
 
 use \ZephirPerformance\ZephirPerformance;
 
+
+class PHPPerformance
+{
+
+    public static function guid()
+    {
+        return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', 
+            mt_rand(0, 65535), mt_rand(0, 65535), 
+            mt_rand(0, 65535), mt_rand(16384, 20479), 
+            mt_rand(32768, 49151), mt_rand(0, 65535), 
+            mt_rand(0, 65535), mt_rand(0, 65535));
+    }
+
+}
+
 class PerformanceTest extends PHPUnit_Framework_TestCase 
 {
 	public function test1Speed()
 	{
 		//warm-up
 		ZephirPerformance::guid()."\n";
-		PHP::guid()."\n";
+		PHPPerformance::guid()."\n";
 		ZephirPerformance::guid()."\n";
-		PHP::guid()."\n";
+		PHPPerformance::guid()."\n";
 
 		echo "Test 1:\n";
         $start = $this->getMillisecond();
@@ -25,7 +40,7 @@ class PerformanceTest extends PHPUnit_Framework_TestCase
 		
         $start = $this->getMillisecond();
         for ($i=0; $i < 1000000; $i++) { 
-            $guid = PHP::guid();
+            $guid = PHPPerformance::guid();
         }
         $end = $this->getMillisecond();
         $sp2 = $end - $start;
@@ -38,9 +53,9 @@ class PerformanceTest extends PHPUnit_Framework_TestCase
 		echo "Test 2:\n";
 		//warm-up
 		ZephirPerformance::guid()."\n";
-		PHP::guid()."\n";
+		PHPPerformance::guid()."\n";
 		ZephirPerformance::guid()."\n";
-		PHP::guid()."\n";
+		PHPPerformance::guid()."\n";
 
         $start = $this->getMillisecond();
         ZephirPerformance::batch(1000000);
@@ -52,7 +67,7 @@ class PerformanceTest extends PHPUnit_Framework_TestCase
 
         $start = $this->getMillisecond();
         for ($i=0; $i < 1000000; $i++) { 
-            $guid = PHP::guid();
+            $guid = PHPPerformance::guid();
         }
         $end = $this->getMillisecond();
         $sp2 = $end - $start;
@@ -69,19 +84,5 @@ class PerformanceTest extends PHPUnit_Framework_TestCase
         list($s1,$s2)=explode(' ',microtime());
         return (float)sprintf('%.0f',(floatval($s1)+floatval($s2))*1000);
     }
-
-}
-
-class PHP
-{
-
-	public static function guid()
-	{
-	    return sprintf('%04X%04X-%04X-%04X-%04X-%04X%04X%04X', 
-	    	mt_rand(0, 65535), mt_rand(0, 65535), 
-	    	mt_rand(0, 65535), mt_rand(16384, 20479), 
-	    	mt_rand(32768, 49151), mt_rand(0, 65535), 
-	    	mt_rand(0, 65535), mt_rand(0, 65535));
-	}
 
 }
